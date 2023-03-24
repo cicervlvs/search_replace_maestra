@@ -91,7 +91,7 @@ entrega_23 = [
         ]
 
 entrega_24 = [
-"        4e9eaad8-5be3-4d30-942e-a53b1d7ba7b7",
+"4e9eaad8-5be3-4d30-942e-a53b1d7ba7b7",
 "4ee0abe9-b1d6-470a-8651-8ddbb8c28370",
 "4f07752a-3bf9-4b8c-9649-909cde956fc2",
 "4f375f0e-251e-4d24-b758-6533aed0fef6",
