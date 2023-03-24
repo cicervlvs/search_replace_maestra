@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from getpass import getpass
 import time
 import sys
 import wordlists
@@ -24,11 +25,11 @@ def search_and_replace(n_entrega):
 #TODO: canviar per comandes bitwarden o per input manual
     user_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[2]/div/div[1]/input")
     user_box.clear()
-    username = input("E-mail:")
+    username = input("E-mail: ")
     user_box.send_keys(username)
 
     password_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[3]/div/div[1]/input")
-    password = input("Contrassenya:")
+    password = getpass("Contrassenya: ")
     password_box.send_keys(password)
     password_box.send_keys(Keys.RETURN)
 
