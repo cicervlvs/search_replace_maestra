@@ -5,16 +5,10 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from getpass import getpass
 import time
-import sys
 import wordlists
 import audiolists
 
-def search_and_replace(n_entrega):
-
-    n_entrega = int(n_entrega)
-
-    if not type(n_entrega) is int:
-        raise TypeError("S'ha d'incloure el número d'una entrega com a argument")
+def search_and_replace():
 
 # Obrir Firefox i maestra
     driver = webdriver.Firefox()
@@ -22,7 +16,6 @@ def search_and_replace(n_entrega):
     assert "Maestra" in driver.title
 
 #Posar usuari i contrassenya
-#TODO: canviar per comandes bitwarden o per input manual
     user_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[2]/div/div[1]/input")
     user_box.clear()
     username = input("E-mail: ")
@@ -33,11 +26,16 @@ def search_and_replace(n_entrega):
     password_box.send_keys(password)
     password_box.send_keys(Keys.RETURN)
 
-    time.sleep(1)
+    time.sleep(3)
 
     if driver.current_url != "https://app.maestrasuite.com/voiceovers":
         raise Exception("Usuari o contrassenya incorrectes. Torneu a iniciar el programa.")
 
+    n_entrega = int(input("Número d'entrega: "))
+
+    if n_entrega > 200:
+        raise Exception("El número d'entrega ha de ser entre el 1 i el 200.")
+    
 # Entrar a la pestanya de captions
     caption_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[1]/div[2]/div[2]/div/div[1]/a[2]")))
     caption_button.click()
@@ -46,7 +44,14 @@ def search_and_replace(n_entrega):
     folder_button = WebDriverWait(driver, 20).until(ec.element_to_be_clickable((By.XPATH,f"//*[text()='Entrega {n_entrega}']")))
     folder_button.click()
 
-    audiolist = audiolists.entrega_23
+    llista_entregues = {}
+    total_entregues = range(1, 200)
+    keys = total_entregues
+    values = [f"audiolists.entrega_{i}" for i in total_entregues]
+    for k, v in zip(keys, values):
+        llista_entregues[k] = [v]
+    
+    audiolist = eval(f"audiolists.entrega_{n_entrega}")
 
     for audio in audiolist:
         search_box = WebDriverWait(driver, 30).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[5]/div/div[1]/div/div/div[1]/div[4]/div[1]/div/div/input")))
@@ -83,4 +88,4 @@ def search_and_replace(n_entrega):
         back_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[1]")
         back_button.click()
 
-search_and_replace(sys.argv[1])
+search_and_replace()
