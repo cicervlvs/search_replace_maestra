@@ -24,17 +24,17 @@ def search_and_replace(n_entrega):
 #TODO: canviar per comandes bitwarden o per input manual
     user_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[2]/div/div[1]/input")
     user_box.clear()
-    username = input("E-mail: \n")
+    username = input("E-mail:")
     user_box.send_keys(username)
 
     password_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[3]/div/div[1]/input")
-    password = input("Contrassenya: \n")
+    password = input("Contrassenya:")
     password_box.send_keys(password)
     password_box.send_keys(Keys.RETURN)
 
     time.sleep(1)
 
-    if not driver.current_url is "https://app.maestrasuite.com/voiceovers":
+    if driver.current_url != "https://app.maestrasuite.com/voiceovers":
         raise Exception("Usuari o contrassenya incorrectes. Torneu a iniciar el programa.")
 
 # Entrar a la pestanya de captions
