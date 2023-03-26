@@ -27,7 +27,10 @@ def search_and_replace():
     password_box.send_keys(password)
     password_box.send_keys(Keys.RETURN)
 
-    time.sleep(3)
+    try:
+        WebDriverWait(driver, 10).until(ec.title_contains("https://app.maestrasuite.com/voiceovers"))
+    except Exception:
+        print("Usuari o contrassenya incorrectes.")
 
     if driver.current_url != "https://app.maestrasuite.com/voiceovers":
         raise Exception("Usuari o contrassenya incorrectes. Torneu a iniciar el programa.")
