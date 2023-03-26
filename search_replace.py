@@ -3,8 +3,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from getpass import getpass
 import time
+import json
 import wordlists
 import audiolists
 
@@ -16,13 +16,14 @@ def search_and_replace():
     assert "Maestra" in driver.title
 
 #Posar usuari i contrassenya
+    creds = json.load(open('credentials.json'))
     user_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[2]/div/div[1]/input")
     user_box.clear()
-    username = input("E-mail: ")
+    username = creds["username"]
     user_box.send_keys(username)
 
     password_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[3]/div/div[1]/input")
-    password = getpass("Contrassenya: ")
+    password = creds["password"]
     password_box.send_keys(password)
     password_box.send_keys(Keys.RETURN)
 
