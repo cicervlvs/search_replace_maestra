@@ -38,11 +38,13 @@ def search_and_replace():
     if n_entrega > 200:
         raise Exception("El número d'entrega ha de ser entre el 1 i el 200.")
     
+
 # Entrar a la pestanya de captions
     caption_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[1]/div[2]/div[2]/div/div[1]/a[2]")))
     caption_button.click()
 
 #Entrar a entrega
+    print("Entrant a la pàgina d'entrega...")
     folder_button = WebDriverWait(driver, 20).until(ec.element_to_be_clickable((By.XPATH,f"//*[text()='Entrega {n_entrega}']")))
     folder_button.click()
 
@@ -55,7 +57,7 @@ def search_and_replace():
     
     audiolist = eval(f"audiolists.entrega_{n_entrega}")
 
-    with alive_bar(title = f"Processament d'àudios de l'entrega {n_entrega}", calibrate=10) as bar:
+    with alive_bar(len(audiolist), title = f"Processament d'àudios de l'entrega {n_entrega}", calibrate = 1, title_length = "54") as bar:
 
         for audio in audiolist:
             search_box = WebDriverWait(driver, 30).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[5]/div/div[1]/div/div/div[1]/div[4]/div[1]/div/div/input")))
@@ -88,6 +90,8 @@ def search_and_replace():
                     confirm_button = WebDriverWait(driver, 3).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[8]/div/div/div[2]/div/button[1]")))
                     confirm_button.click()
                     time.sleep(1)
+            
+            bar.title = f"Àudio més recent: {audio}\n"
 
             back_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[1]")
             back_button.click()
