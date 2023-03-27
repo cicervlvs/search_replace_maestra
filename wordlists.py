@@ -72,7 +72,7 @@ infok = [
         ("il legal", "il·legal"),
         ("al lu", "al·lu"),
         ("il lu", "il·lu"),
-
+        ("instal l", "instal·l"),
 
         ]
 
