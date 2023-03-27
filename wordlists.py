@@ -19,6 +19,8 @@ infok = [
         ("eradicar", "erradicar"),
         ("unió europea", "Unió Europea"),
 
+        #esports
+
         #diacrítics
         ("dón", "don"),
         (" sóc ", " soc "),
@@ -48,6 +50,7 @@ infok = [
         ("Cuina", "cuina"),
         ("Castell", "castell"),
         ("La Salut", "la salut"),
+        ("Salt", "salt"),
 
         #guions
         (" vint i ", " vint-i-"),
