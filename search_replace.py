@@ -7,6 +7,7 @@ import time
 import json
 import wordlists
 import audiolists
+from alive_progress import alive_bar
 
 def search_and_replace():
 
@@ -54,39 +55,41 @@ def search_and_replace():
     
     audiolist = eval(f"audiolists.entrega_{n_entrega}")
 
-    for audio in audiolist:
-        search_box = WebDriverWait(driver, 30).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[5]/div/div[1]/div/div/div[1]/div[4]/div[1]/div/div/input")))
-        search_box.clear()
-        search_box.send_keys(audio)
-        audio_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH,"/html/body/div[1]/div/div[5]/div/div[3]/div[1]/div/div/div/div/div[2]")))
-        audio_button.click()
-        wordlist = wordlists.infok
-        search_button = WebDriverWait(driver, 60).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div")))
-        search_button.click()
-        
-        caps_button = WebDriverWait(driver, 5).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[2]/button[1]")))
-        caps_button.click()
+    with alive_bar(title = f"Processament d'àudios de l'entrega {n_entrega}", calibrate=10) as bar:
 
-        for old_word, new_word in wordlist:
-            old_word_box = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[1]/input")))
-            old_word_box.send_keys(Keys.CONTROL + "a")
-            old_word_box.send_keys(Keys.DELETE)
-            old_word_box.send_keys(old_word)
-            time.sleep(.4)
-            word_count = WebDriverWait(driver, 3).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[2]/div"))).text
-            replace_box = driver.find_element(By. XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[2]/div[1]/input")
-            replace_all_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[2]/div[2]/button[2]")
+        for audio in audiolist:
+            search_box = WebDriverWait(driver, 30).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[5]/div/div[1]/div/div/div[1]/div[4]/div[1]/div/div/input")))
+            search_box.clear()
+            search_box.send_keys(audio)
+            audio_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH,"/html/body/div[1]/div/div[5]/div/div[3]/div[1]/div/div/div/div/div[2]")))
+            audio_button.click()
+            wordlist = wordlists.infok
+            search_button = WebDriverWait(driver, 60).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div")))
+            search_button.click()
+            
+            caps_button = WebDriverWait(driver, 5).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[2]/button[1]")))
+            caps_button.click()
 
-            if word_count != "No match":
-                replace_box.send_keys(Keys.CONTROL + "a")
-                replace_box.send_keys(Keys.DELETE)
-                replace_box.send_keys(new_word) 
-                replace_all_button.click()
-                confirm_button = WebDriverWait(driver, 3).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[8]/div/div/div[2]/div/button[1]")))
-                confirm_button.click()
-                time.sleep(1)
+            for old_word, new_word in wordlist:
+                old_word_box = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[1]/input")))
+                old_word_box.send_keys(Keys.CONTROL + "a")
+                old_word_box.send_keys(Keys.DELETE)
+                old_word_box.send_keys(old_word)
+                time.sleep(.4)
+                word_count = WebDriverWait(driver, 3).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[2]/div"))).text
+                replace_box = driver.find_element(By. XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[2]/div[1]/input")
+                replace_all_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[2]/div[2]/button[2]")
 
-        back_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[1]")
-        back_button.click()
+                if word_count != "No match":
+                    replace_box.send_keys(Keys.CONTROL + "a")
+                    replace_box.send_keys(Keys.DELETE)
+                    replace_box.send_keys(new_word) 
+                    replace_all_button.click()
+                    confirm_button = WebDriverWait(driver, 3).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[8]/div/div/div[2]/div/button[1]")))
+                    confirm_button.click()
+                    time.sleep(1)
 
+            back_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[1]")
+            back_button.click()
+            bar()
 search_and_replace()
