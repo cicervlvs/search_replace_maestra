@@ -12,7 +12,9 @@ from alive_progress import alive_bar
 def search_and_replace():
 
 # Obrir Firefox i maestra
-    driver = webdriver.Firefox()
+    options = webdriver.FirefoxOptions()
+    options.add_argument("--headless")
+    driver = webdriver.Firefox(options=options)
     driver.get("https://app.maestrasuite.com/login")
     assert "Maestra" in driver.title
 
@@ -59,6 +61,8 @@ def search_and_replace():
 
     with alive_bar(len(audiolist), title = f"Processament d'àudios de l'entrega {n_entrega}", calibrate = 1, title_length = "54") as bar:
 
+        total_changes = 0
+
         for audio in audiolist:
             search_box = WebDriverWait(driver, 30).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[5]/div/div[1]/div/div/div[1]/div[4]/div[1]/div/div/input")))
             search_box.clear()
@@ -89,6 +93,7 @@ def search_and_replace():
                     replace_all_button.click()
                     confirm_button = WebDriverWait(driver, 3).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[8]/div/div/div[2]/div/button[1]")))
                     confirm_button.click()
+                    total_changes =+ 1
                     time.sleep(1)
             
             bar.title = f"Àudio més recent: {audio}\n"
@@ -96,4 +101,6 @@ def search_and_replace():
             back_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[1]")
             back_button.click()
             bar()
+
+    print(f"Total de canvis: {total_changes} \nMitjana de canvis: {total_changes / len(audiolist)}")
 search_and_replace()
