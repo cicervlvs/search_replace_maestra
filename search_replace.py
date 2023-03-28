@@ -59,9 +59,9 @@ def search_and_replace():
     
     audiolist = eval(f"audiolists.entrega_{n_entrega}")
 
-    with alive_bar(len(audiolist), title = f"Processament d'àudios de l'entrega {n_entrega}", calibrate = 1, title_length = "54") as bar:
+    total_changes = 0
 
-        total_changes = 0
+    with alive_bar(len(audiolist), title = f"Processament d'àudios de l'entrega {n_entrega}", calibrate = 1, title_length = "54") as bar:
 
         for audio in audiolist:
             search_box = WebDriverWait(driver, 30).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[5]/div/div[1]/div/div/div[1]/div[4]/div[1]/div/div/input")))
