@@ -1,35 +1,34 @@
 infok = [
-        
-        #InfoK
-        # ("info k", "InfoK"),
-        # ("infocar", "InfoK"),
-        # ("infocat", "InfoK"),
-        # ("infoca", "InfoK"),
-        # ("infocap", "InfoK"),
-        # ("info caires", "infokaires"),
+        ("info k", "InfoK"),
+        ("infocar", "InfoK"),
+        ("infocat", "InfoK"),
+        ("infoca", "InfoK"),
+        ("infocap", "InfoK"),
+        ("info caires", "infokaires"),
         ("T V tres", "TV3"),
-        # ("súper ", "super"),
-        # ("crack", "crac"),
+        ("súper ", "super"),
+        ("crack", "crac"),
+        ]
 
-        #medi ambient
+medi_ambient = [
         ("collserola", "Collserola"),
         ("península ibèrica", "península Ibèrica"),
         ("C O dos", "CO2"),
         ("c o dos", "CO2"),
         ("eradicar", "erradicar"),
         ("unió europea", "Unió Europea"),
+        ]
 
-        #esports
-
-        #diacrítics
+diacrítics = [
         ("dón", "don"),
         (" sóc ", " soc "),
         (" nét", " net "),
         ("adéu", "adeu"),
         ("Adéu", "Adeu"),
         (" ós", " os"),
+        ]
 
-        #majúscules
+majúscules = [
         ("barcelona", "Barcelona"),
         ("catalunya", "Catalunya"),
         ("espanya", "Espanya"),
@@ -51,8 +50,9 @@ infok = [
         ("Castell", "castell"),
         ("La Salut", "la salut"),
         ("Salt", "salt"),
+        ]
 
-        #guions
+guions = [
         (" vint i ", " vint-i-"),
         ("dos cents", "dos-cents"),
         ("dues centes", "dues-centes"),
@@ -64,8 +64,9 @@ infok = [
         ("vuit cent", "vuit-cent"),
         ("nou cent", "nou-cent"),
         ("r lo", "r-lo"),
+        ]
 
-        #punts volats
+punts_volats = [
         ("peli", "pel·li"),
         # (" cole ", " col·le "),
         ("pel lícula", "pel·lícula"),
@@ -76,7 +77,4 @@ infok = [
         ("al lu", "al·lu"),
         ("il lu", "il·lu"),
         ("instal l", "instal·l"),
-
         ]
-
-
