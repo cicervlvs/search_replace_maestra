@@ -1,4 +1,7 @@
-infok = [
+
+wordlists = {
+
+"infok": [
         ("info k", "InfoK"),
         ("infocar", "InfoK"),
         ("infocat", "InfoK"),
@@ -8,27 +11,27 @@ infok = [
         ("T V tres", "TV3"),
         ("súper ", "super"),
         ("crack", "crac"),
-        ]
+        ],
 
-medi_ambient = [
+"medi_ambient": [
         ("collserola", "Collserola"),
         ("península ibèrica", "península Ibèrica"),
         ("C O dos", "CO2"),
         ("c o dos", "CO2"),
         ("eradicar", "erradicar"),
         ("unió europea", "Unió Europea"),
-        ]
+        ],
 
-diacrítics = [
+"diacrítics": [
         ("dón", "don"),
         (" sóc ", " soc "),
         (" nét", " net "),
         ("adéu", "adeu"),
         ("Adéu", "Adeu"),
         (" ós", " os"),
-        ]
+        ],
 
-majúscules = [
+"majúscules": [
         ("barcelona", "Barcelona"),
         ("catalunya", "Catalunya"),
         ("espanya", "Espanya"),
@@ -50,9 +53,9 @@ majúscules = [
         ("Castell", "castell"),
         ("La Salut", "la salut"),
         ("Salt", "salt"),
-        ]
+        ],
 
-guions = [
+"guions": [
         (" vint i ", " vint-i-"),
         ("dos cents", "dos-cents"),
         ("dues centes", "dues-centes"),
@@ -64,11 +67,11 @@ guions = [
         ("vuit cent", "vuit-cent"),
         ("nou cent", "nou-cent"),
         ("r lo", "r-lo"),
-        ]
+        ],
 
-punts_volats = [
+"punts_volats": [
         ("peli", "pel·li"),
-        # (" cole ", " col·le "),
+        (" col le ", " col·le "),
         ("pel lícula", "pel·lícula"),
         ("polució", "pol·lució"),
         ("goril l", "goril·l"),
@@ -77,4 +80,5 @@ punts_volats = [
         ("al lu", "al·lu"),
         ("il lu", "il·lu"),
         ("instal l", "instal·l"),
-        ]
+        ],
+}
