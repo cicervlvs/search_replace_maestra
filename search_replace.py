@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+import itertools
 import time
 import json
 import wordlists as wl
@@ -45,14 +46,14 @@ def search_and_replace():
     terminal_menu = TerminalMenu([i for i in wl.wordlists],
                                 multi_select = True,
                                 show_multi_select_hint = True,
-                                preview_command = "python -c 'import wordlists as wl; print(wl.wordlists[{}])'" )
+                                preview_command = "python menu_preview.py {}",
+                                preview_size = .75
+                                 )
     print("Escull les llistes de paraules que vols substituir:")
     terminal_menu.show()
-    selected_tuples = [wl.wordlists.get(item) for item in terminal_menu.chosen_menu_entries][0]
-    print(selected_tuples)
+    selected_tuples = list(itertools.chain.from_iterable([wl.wordlists.get(item) for item in terminal_menu.chosen_menu_entries]))
 
     audiolist = al.audiolists.get(f"entrega_{n_entrega}")
-
 # Entrar a la pestanya de captions
     caption_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[1]/div[2]/div[2]/div/div[1]/a[2]")))
     caption_button.click()
