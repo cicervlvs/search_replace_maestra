@@ -4,12 +4,32 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 import itertools
+import re
 import time
 import json
 import wordlists as wl
 import audiolists as al
 from alive_progress import alive_bar
 from simple_term_menu import TerminalMenu
+
+# def menu_preview(wl_tuple_list):
+#     pretty_tuple_list = re.sub(
+#             r'\', \'',
+#             r' - ',
+#             str(wl.wordlists.get(wl_tuple_list)))
+#     return(pretty_tuple_list)
+
+def menu_preview(wl_tuple_list):
+    pretty_tuple_list = str(wl.wordlists.get(wl_tuple_list)) \
+            .replace("', '", " -> ") \
+            .replace("(", "") \
+            .replace(")", "") \
+            .replace("[", "") \
+            .replace("]", "") \
+            .replace("'", "") \
+            .replace(", ", "\n")
+
+    return(pretty_tuple_list)
 
 def search_and_replace():
 
@@ -46,7 +66,7 @@ def search_and_replace():
     terminal_menu = TerminalMenu([i for i in wl.wordlists],
                                 multi_select = True,
                                 show_multi_select_hint = True,
-                                preview_command = "python menu_preview.py {}",
+                                preview_command = menu_preview,
                                 preview_size = .75
                                  )
     print("Escull les llistes de paraules que vols substituir:")
