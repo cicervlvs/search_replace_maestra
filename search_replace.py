@@ -44,7 +44,9 @@ def search_and_replace():
 # Seleccionar llistes de paraules
     terminal_menu = TerminalMenu([i for i in wl.wordlists],
                                 multi_select = True,
-                                show_multi_select_hint = True)
+                                show_multi_select_hint = True,
+                                preview_command = "python -c 'import wordlists as wl; print(wl.wordlists[{}])'" )
+    print("Escull les llistes de paraules que vols substituir:")
     terminal_menu.show()
     selected_tuples = [wl.wordlists.get(item) for item in terminal_menu.chosen_menu_entries][0]
     print(selected_tuples)
