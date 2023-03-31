@@ -25,7 +25,7 @@ wordlists = {
 "diacrítics": [
         ("dón", "don"),
         (" sóc ", " soc "),
-        (" nét", " net "),
+        (" nét ", " net "),
         ("adéu", "adeu"),
         ("Adéu", "Adeu"),
         (" ós", " os"),
@@ -57,6 +57,7 @@ wordlists = {
 
 "guions": [
         (" vint i ", " vint-i-"),
+        ("vint iu", "vint-i-u"),
         ("dos cents", "dos-cents"),
         ("dues centes", "dues-centes"),
         ("tres cent", "tres-cent"),
@@ -80,5 +81,6 @@ wordlists = {
         ("al lu", "al·lu"),
         ("il lu", "il·lu"),
         ("instal l", "instal·l"),
+        ("novel l", "novel·l")
         ],
 }
