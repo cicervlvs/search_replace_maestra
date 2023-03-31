@@ -116,7 +116,7 @@ def search_and_replace():
                     replace_all_button.click()
                     confirm_button = WebDriverWait(driver, 3).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[8]/div/div/div[2]/div/button[1]")))
                     confirm_button.click()
-                    total_changes =+ 1
+                    total_changes += 1
                     time.sleep(.5)
             
             bar.title = f"Àudio més recent: {audio}\n"
