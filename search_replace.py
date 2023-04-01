@@ -81,6 +81,7 @@ def search_and_replace():
     terminal_menu.show()
     selected_tuples = list(itertools.chain.from_iterable([wl.wordlists.get(item) for item in terminal_menu.chosen_menu_entries]))
 
+    audiolist: list = al.audiolists.get(n_entrega)
 
 # Entrar a la pestanya de captions
     caption_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[1]/div[2]/div[2]/div/div[1]/a[2]")))
@@ -134,4 +135,9 @@ def search_and_replace():
             bar()
 
     print(f"Total de canvis: {total_changes} \nMitjana de canvis: {total_changes / len(audiolist)}")
-search_and_replace()
+
+def main():
+    search_and_replace()
+
+if __name__ == "__main__":
+    main()
