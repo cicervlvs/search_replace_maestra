@@ -73,7 +73,8 @@ def search_and_replace():
     terminal_menu.show()
     selected_tuples = list(itertools.chain.from_iterable([wl.wordlists.get(item) for item in terminal_menu.chosen_menu_entries]))
 
-    audiolist = al.audiolists.get(f"entrega_{n_entrega}")
+    audiolist = al.audiolists.get(n_entrega)
+
 # Entrar a la pestanya de captions
     caption_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[1]/div[2]/div[2]/div/div[1]/a[2]")))
     caption_button.click()
