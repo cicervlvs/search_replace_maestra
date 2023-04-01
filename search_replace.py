@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import TimeoutException
 import itertools
 import re
 import time
@@ -35,7 +36,7 @@ def search_and_replace():
 
 # Obrir Firefox i maestra
     options = webdriver.FirefoxOptions()
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
     driver = webdriver.Firefox(options=options)
     driver.get("https://app.maestrasuite.com/login")
     assert "Maestra" in driver.title
@@ -57,8 +58,12 @@ def search_and_replace():
 
     try:
         WebDriverWait(driver, 10).until(ec.url_matches("https://app.maestrasuite.com/voiceovers"))
-    except Exception:
-        print("Usuari o contrassenya incorrectes.")
+    except TimeoutException:
+        if driver.find_element(By.CLASS_NAME, "authScreenMessage"):
+           print("Usuari o contrassenya incorrectes.")
+        else:
+           print("Error desconegut.")
+        raise
 
     n_entrega = int(input("Número d'entrega: "))
 
