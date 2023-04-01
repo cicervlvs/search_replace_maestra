@@ -36,7 +36,8 @@ def search_and_replace():
 
 # Obrir Firefox i maestra
     options = webdriver.FirefoxOptions()
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
+    options.page_load_strategy = 'eager'
     driver = webdriver.Firefox(options=options)
     driver.get("https://app.maestrasuite.com/login")
     assert "Maestra" in driver.title
@@ -46,12 +47,12 @@ def search_and_replace():
     with open('credentials.json', 'r') as credentials:
         creds = json.load(credentials)
 
-    user_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[2]/div/div[1]/input")
+    user_box = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[3]/div/div[2]/div/div[1]/input")))
     user_box.clear()
     username = creds.get("username")
     user_box.send_keys(username)
 
-    password_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[3]/div/div[1]/input")
+    password_box = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[3]/div/div[3]/div/div[1]/input")))
     password = creds.get("password")
     password_box.send_keys(password)
     password_box.send_keys(Keys.RETURN)
