@@ -41,14 +41,17 @@ def search_and_replace():
     assert "Maestra" in driver.title
 
 #Posar usuari i contrassenya
-    creds = json.load(open('credentials.json'))
+    creds = {}
+    with open('credentials.json', 'r') as credentials:
+        creds = json.load(credentials)
+
     user_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[2]/div/div[1]/input")
     user_box.clear()
-    username = creds["username"]
+    username = creds.get("username")
     user_box.send_keys(username)
 
     password_box = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[3]/div/div[3]/div/div[1]/input")
-    password = creds["password"]
+    password = creds.get("password")
     password_box.send_keys(password)
     password_box.send_keys(Keys.RETURN)
 
