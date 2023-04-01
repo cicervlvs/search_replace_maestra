@@ -35,7 +35,7 @@ def search_and_replace():
 
 # Obrir Firefox i maestra
     options = webdriver.FirefoxOptions()
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
     driver = webdriver.Firefox(options=options)
     driver.get("https://app.maestrasuite.com/login")
     assert "Maestra" in driver.title
@@ -59,7 +59,7 @@ def search_and_replace():
 
     n_entrega = int(input("Número d'entrega: "))
 
-    if n_entrega > 200:
+    if n_entrega > 200 or n_entrega <= 0:
         raise Exception("El número d'entrega ha de ser entre el 1 i el 200.")
     
 # Seleccionar llistes de paraules
