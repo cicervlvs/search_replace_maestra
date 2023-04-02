@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "search-replace-maestra"
+version = "0.1.0"
+description = "Cerca i reemplaça paraules en les transcripcions de l'aplicació web Maestra."
+authors = ["Alejandro García"]
+readme = "README.md"
+packages = [{include = "search_replace_maestra"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+selenium = "^4.8.3"
+simple-term-menu = "^1.6.1"
+alive-progress = "^3.1.0"
+flake8 = "^6.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
