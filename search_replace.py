@@ -101,7 +101,7 @@ def search_and_replace():
             search_box = WebDriverWait(driver, 30).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[5]/div/div[1]/div/div/div[1]/div[4]/div[1]/div/div/input")))
             search_box.clear()
             search_box.send_keys(audio)
-            audio_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH,"/html/body/div[1]/div/div[5]/div/div[3]/div[1]/div/div/div/div/div[2]")))
+            audio_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.CLASS_NAME,"listItemFileName")))
             audio_button.click()
             search_button = WebDriverWait(driver, 60).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div")))
             search_button.click()
