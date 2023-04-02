@@ -1,7 +1,5 @@
-
 wordlists = {
-
-"infok": [
+    "infok": [
         ("info k", "InfoK"),
         ("infocar", "InfoK"),
         ("infocat", "InfoK"),
@@ -11,27 +9,24 @@ wordlists = {
         ("T V tres", "TV3"),
         ("súper ", "super"),
         ("crack", "crac"),
-        ],
-
-"medi_ambient": [
+    ],
+    "medi_ambient": [
         ("collserola", "Collserola"),
         ("península ibèrica", "península Ibèrica"),
         ("C O dos", "CO2"),
         ("c o dos", "CO2"),
         ("eradicar", "erradicar"),
         ("unió europea", "Unió Europea"),
-        ],
-
-"diacrítics": [
+    ],
+    "diacrítics": [
         ("dón", "don"),
         (" sóc ", " soc "),
         (" nét ", " net "),
         ("adéu", "adeu"),
         ("Adéu", "Adeu"),
         (" ós", " os"),
-        ],
-
-"majúscules": [
+    ],
+    "majúscules": [
         ("barcelona", "Barcelona"),
         ("catalunya", "Catalunya"),
         ("espanya", "Espanya"),
@@ -53,9 +48,8 @@ wordlists = {
         ("Castell", "castell"),
         ("La Salut", "la salut"),
         ("Salt", "salt"),
-        ],
-
-"guions": [
+    ],
+    "guions": [
         (" vint i ", " vint-i-"),
         ("vint iu", "vint-i-u"),
         ("dos cents", "dos-cents"),
@@ -68,19 +62,18 @@ wordlists = {
         ("vuit cent", "vuit-cent"),
         ("nou cent", "nou-cent"),
         ("r lo", "r-lo"),
-        ],
-
-"punts_volats": [
+    ],
+    "punts_volats": [
         ("peli", "pel·li"),
         (" col le ", " col·le "),
         ("pel lícula", "pel·lícula"),
         ("polució", "pol·lució"),
         ("goril l", "goril·l"),
-        ("col labor","col·labor"),
+        ("col labor", "col·labor"),
         ("il legal", "il·legal"),
         ("al lu", "al·lu"),
         ("il lu", "il·lu"),
         ("instal l", "instal·l"),
-        ("novel l", "novel·l")
-        ],
+        ("novel l", "novel·l"),
+    ],
 }
