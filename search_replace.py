@@ -20,6 +20,7 @@ from simple_term_menu import TerminalMenu
 #             str(wl.wordlists.get(wl_tuple_list)))
 #     return(pretty_tuple_list)
 
+
 def menu_preview(wl_tuple_list):
     pretty_tuple_list = str(wl.wordlists.get(wl_tuple_list)) \
             .replace("', '", " -> ") \
@@ -30,11 +31,12 @@ def menu_preview(wl_tuple_list):
             .replace("'", "") \
             .replace(", ", "\n")
 
-    return(pretty_tuple_list)
+    return (pretty_tuple_list)
+
 
 def search_and_replace():
 
-# Obrir Firefox i maestra
+    # Obrir Firefox i maestra
     options = webdriver.FirefoxOptions()
     # options.add_argument("--headless")
     options.page_load_strategy = 'eager'
@@ -42,7 +44,7 @@ def search_and_replace():
     driver.get("https://app.maestrasuite.com/login")
     assert "Maestra" in driver.title
 
-#Posar usuari i contrassenya
+    # Posar usuari i contrassenya
     creds = {}
     with open('credentials.json', 'r') as credentials:
         creds = json.load(credentials)
@@ -61,22 +63,22 @@ def search_and_replace():
         WebDriverWait(driver, 10).until(ec.url_matches("https://app.maestrasuite.com/voiceovers"))
     except TimeoutException:
         if driver.find_element(By.CLASS_NAME, "authScreenMessage"):
-           print("Usuari o contrassenya incorrectes.")
+            print("Usuari o contrassenya incorrectes.")
         else:
-           print("Error desconegut.")
+            print("Error desconegut.")
         raise
 
     n_entrega = int(input("Número d'entrega: "))
 
     if n_entrega > 200 or n_entrega <= 0:
         raise Exception("El número d'entrega ha de ser entre el 1 i el 200.")
-    
-# Seleccionar llistes de paraules
+
+    # Seleccionar llistes de paraules
     terminal_menu = TerminalMenu([i for i in wl.wordlists],
-                                multi_select = True,
-                                show_multi_select_hint = True,
-                                preview_command = menu_preview,
-                                preview_size = .75
+                                 multi_select=True,
+                                 show_multi_select_hint=True,
+                                 preview_command=menu_preview,
+                                 preview_size=.75
                                  )
     print("Escull les llistes de paraules que vols substituir:")
     terminal_menu.show()
@@ -84,28 +86,28 @@ def search_and_replace():
 
     audiolist: list = al.audiolists.get(n_entrega)
 
-# Entrar a la pestanya de captions
+    # Entrar a la pestanya de captions
     caption_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[1]/div[2]/div[2]/div/div[1]/a[2]")))
     caption_button.click()
 
-#Entrar a entrega
+    # Entrar a entrega
     print("Entrant a la pàgina d'entrega...")
-    folder_button = WebDriverWait(driver, 20).until(ec.element_to_be_clickable((By.XPATH,f"//*[text()='Entrega {n_entrega}']")))
+    folder_button = WebDriverWait(driver, 20).until(ec.element_to_be_clickable((By.XPATH, f"//*[text()='Entrega {n_entrega}']")))
     folder_button.click()
 
     total_changes = 0
 
-    with alive_bar(len(audiolist), title = f"Processament d'àudios de l'entrega {n_entrega}", calibrate = 1, title_length = "54") as bar:
+    with alive_bar(len(audiolist), title=f"Processament d'àudios de l'entrega {n_entrega}", calibrate=1, title_length="54") as bar:
 
         for audio in audiolist:
             search_box = WebDriverWait(driver, 30).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[5]/div/div[1]/div/div/div[1]/div[4]/div[1]/div/div/input")))
             search_box.clear()
             search_box.send_keys(audio)
-            audio_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.CLASS_NAME,"listItemFileName")))
+            audio_button = WebDriverWait(driver, 10).until(ec.element_to_be_clickable((By.CLASS_NAME, "listItemFileName")))
             audio_button.click()
             search_button = WebDriverWait(driver, 60).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div")))
             search_button.click()
-            
+
             caps_button = WebDriverWait(driver, 5).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[2]/button[1]")))
             caps_button.click()
 
@@ -122,13 +124,13 @@ def search_and_replace():
                 if word_count != "No match":
                     replace_box.send_keys(Keys.CONTROL + "a")
                     replace_box.send_keys(Keys.DELETE)
-                    replace_box.send_keys(new_word) 
+                    replace_box.send_keys(new_word)
                     replace_all_button.click()
                     confirm_button = WebDriverWait(driver, 3).until(ec.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div/div[4]/div/div[8]/div/div/div[2]/div/button[1]")))
                     confirm_button.click()
                     total_changes += 1
                     time.sleep(.5)
-            
+
             bar.title = f"Àudio més recent: {audio}\n"
 
             back_button = driver.find_element(By.XPATH, "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[1]")
@@ -137,8 +139,11 @@ def search_and_replace():
 
     print(f"Total de canvis: {total_changes} \nMitjana de canvis: {total_changes / len(audiolist)}")
 
+
 def main():
+
     search_and_replace()
+
 
 if __name__ == "__main__":
     main()
