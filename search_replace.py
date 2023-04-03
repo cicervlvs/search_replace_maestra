@@ -39,7 +39,7 @@ def menu_preview(wl_tuple_list):
 def search_and_replace():
     # Obrir Firefox i maestra
     options = webdriver.FirefoxOptions()
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
     options.page_load_strategy = "eager"
     driver = webdriver.Firefox(options=options)
     driver.get("https://app.maestrasuite.com/login")
