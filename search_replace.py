@@ -208,7 +208,7 @@ def search_and_replace():
                         )
                     )
                     confirm_button.click()
-                    total_changes += 1
+                    total_changes += int(word_count)
                     time.sleep(0.5)
 
             bar.title = f"Àudio més recent: {audio}\n"
