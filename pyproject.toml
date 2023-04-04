@@ -11,9 +11,10 @@ python = "^3.10"
 selenium = "^4.8.3"
 simple-term-menu = "^1.6.1"
 alive-progress = "^3.1.0"
-flake8 = "^6.0.0"
-black = "^23.3.0"
 
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+flake8 = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]
