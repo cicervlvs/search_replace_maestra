@@ -5,20 +5,13 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
 import itertools
-import re
 import time
 import json
 import wordlists as wl
 import audiolists as al
+import xpath_locs as xp_loc
 from alive_progress import alive_bar
 from simple_term_menu import TerminalMenu
-
-# def menu_preview(wl_tuple_list):
-#     pretty_tuple_list = re.sub(
-#             r'\', \'',
-#             r' - ',
-#             str(wl.wordlists.get(wl_tuple_list)))
-#     return(pretty_tuple_list)
 
 
 def menu_preview(wl_tuple_list):
@@ -51,18 +44,14 @@ def search_and_replace():
         creds = json.load(credentials)
 
     user_box = WebDriverWait(driver, 10).until(
-        ec.element_to_be_clickable(
-            (By.XPATH, "/html/body/div[1]/div/div[3]/div/div[2]/div/div[1]/input")
-        )
+        ec.element_to_be_clickable((By.XPATH, xp_loc.user_box))
     )
     user_box.clear()
     username = creds.get("username")
     user_box.send_keys(username)
 
     password_box = WebDriverWait(driver, 10).until(
-        ec.element_to_be_clickable(
-            (By.XPATH, "/html/body/div[1]/div/div[3]/div/div[3]/div/div[1]/input")
-        )
+        ec.element_to_be_clickable((By.XPATH, xp_loc.password_box))
     )
     password = creds.get("password")
     password_box.send_keys(password)
@@ -104,9 +93,7 @@ def search_and_replace():
 
     # Entrar a la pestanya de captions
     caption_button = WebDriverWait(driver, 10).until(
-        ec.element_to_be_clickable(
-            (By.XPATH, "/html/body/div[1]/div/div[1]/div[2]/div[2]/div/div[1]/a[2]")
-        )
+        ec.element_to_be_clickable((By.XPATH, xp_loc.caption_button))
     )
     caption_button.click()
 
@@ -127,12 +114,7 @@ def search_and_replace():
     ) as bar:
         for audio in audiolist:
             search_box = WebDriverWait(driver, 30).until(
-                ec.element_to_be_clickable(
-                    (
-                        By.XPATH,
-                        "/html/body/div[1]/div/div[5]/div/div[1]/div/div/div[1]/div[4]/div[1]/div/div/input",
-                    )
-                )
+                ec.element_to_be_clickable((By.XPATH, xp_loc.search_box))
             )
             search_box.clear()
             search_box.send_keys(audio)
@@ -144,7 +126,7 @@ def search_and_replace():
                 ec.element_to_be_clickable(
                     (
                         By.XPATH,
-                        "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div",
+                        xp_loc.search_button,
                     )
                 )
             )
@@ -154,7 +136,7 @@ def search_and_replace():
                 ec.element_to_be_clickable(
                     (
                         By.XPATH,
-                        "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[2]/button[1]",
+                        xp_loc.caps_button,
                     )
                 )
             )
@@ -165,7 +147,7 @@ def search_and_replace():
                     ec.element_to_be_clickable(
                         (
                             By.XPATH,
-                            "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[1]/input",
+                            xp_loc.old_word_box,
                         )
                     )
                 )
@@ -175,23 +157,15 @@ def search_and_replace():
                 time.sleep(0.4)
                 word_count = (
                     WebDriverWait(driver, 3)
-                    .until(
-                        ec.element_to_be_clickable(
-                            (
-                                By.XPATH,
-                                "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[1]/div[2]/div",
-                            )
-                        )
-                    )
+                    .until(ec.element_to_be_clickable((By.XPATH, xp_loc.word_count)))
                     .text
                 )
                 replace_box = driver.find_element(
                     By.XPATH,
-                    "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[2]/div[1]/input",
+                    xp_loc.replace_box,
                 )
                 replace_all_button = driver.find_element(
-                    By.XPATH,
-                    "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[5]/div/div[2]/div[2]/div[2]/button[2]",
+                    By.XPATH, xp_loc.replace_all_button
                 )
 
                 if word_count != "No match":
@@ -200,12 +174,7 @@ def search_and_replace():
                     replace_box.send_keys(new_word)
                     replace_all_button.click()
                     confirm_button = WebDriverWait(driver, 3).until(
-                        ec.element_to_be_clickable(
-                            (
-                                By.XPATH,
-                                "/html/body/div[1]/div/div[4]/div/div[8]/div/div/div[2]/div/button[1]",
-                            )
-                        )
+                        ec.element_to_be_clickable((By.XPATH, xp_loc.confirm_button))
                     )
                     confirm_button.click()
                     total_changes += int(word_count)
@@ -215,14 +184,13 @@ def search_and_replace():
 
             back_button = driver.find_element(
                 By.XPATH,
-                "/html/body/div[1]/div/div[4]/div/div[1]/div[2]/div/div[1]/div[1]",
+                xp_loc.back_button,
             )
             back_button.click()
             bar()
 
-    print(
-        f"Total de canvis: {total_changes} \nMitjana de canvis: {total_changes / len(audiolist)}"
-    )
+    print(f"Total de canvis: {total_changes}")
+    print(f"Mitjana de canvis: {total_changes / len(audiolist)}")
 
 
 def main():
