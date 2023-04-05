@@ -10,7 +10,7 @@ import json
 import wordlists as wl
 import audiolists as al
 import xpath_locs as xp_loc
-from alive_progress import alive_bar
+from tqdm import tqdm
 from simple_term_menu import TerminalMenu
 
 
@@ -106,12 +106,10 @@ def search_and_replace():
 
     total_changes = 0
 
-    with alive_bar(
-        len(audiolist),
-        title=f"Processament d'àudios de l'entrega {n_entrega}",
-        calibrate=1,
-        title_length="54",
-    ) as bar:
+    with tqdm(
+        total=len(audiolist),
+        desc=f"Processament d'àudios de l'entrega {n_entrega}",
+    ) as outer_bar:
         for audio in audiolist:
             search_box = WebDriverWait(driver, 30).until(
                 ec.element_to_be_clickable((By.XPATH, xp_loc.search_box))
@@ -141,53 +139,54 @@ def search_and_replace():
                 )
             )
             caps_button.click()
+            
+            with tqdm(selected_tuples, desc=f"àudio {audio[:6]}", leave=True) as inner_bar:
 
-            for old_word, new_word in selected_tuples:
-                old_word_box = WebDriverWait(driver, 10).until(
-                    ec.element_to_be_clickable(
-                        (
-                            By.XPATH,
-                            xp_loc.old_word_box,
+              for old_word, new_word in selected_tuples:
+                    old_word_box = WebDriverWait(driver, 10).until(
+                        ec.element_to_be_clickable(
+                            (
+                                By.XPATH,
+                                xp_loc.old_word_box,
+                            )
                         )
                     )
-                )
-                old_word_box.send_keys(Keys.CONTROL + "a")
-                old_word_box.send_keys(Keys.DELETE)
-                old_word_box.send_keys(old_word)
-                time.sleep(0.4)
-                word_count = (
-                    WebDriverWait(driver, 3)
-                    .until(ec.element_to_be_clickable((By.XPATH, xp_loc.word_count)))
-                    .text
-                )
-                replace_box = driver.find_element(
-                    By.XPATH,
-                    xp_loc.replace_box,
-                )
-                replace_all_button = driver.find_element(
-                    By.XPATH, xp_loc.replace_all_button
-                )
-
-                if word_count != "No match":
-                    replace_box.send_keys(Keys.CONTROL + "a")
-                    replace_box.send_keys(Keys.DELETE)
-                    replace_box.send_keys(new_word)
-                    replace_all_button.click()
-                    confirm_button = WebDriverWait(driver, 3).until(
-                        ec.element_to_be_clickable((By.XPATH, xp_loc.confirm_button))
+                    old_word_box.send_keys(Keys.CONTROL + "a")
+                    old_word_box.send_keys(Keys.DELETE)
+                    old_word_box.send_keys(old_word)
+                    time.sleep(0.4)
+                    word_count = (
+                        WebDriverWait(driver, 3)
+                        .until(ec.element_to_be_clickable((By.XPATH, xp_loc.word_count)))
+                        .text
                     )
-                    confirm_button.click()
-                    total_changes += int(word_count)
-                    time.sleep(0.5)
+                    replace_box = driver.find_element(
+                        By.XPATH,
+                        xp_loc.replace_box,
+                    )
+                    replace_all_button = driver.find_element(
+                        By.XPATH, xp_loc.replace_all_button
+                    )
 
-            bar.title = f"Àudio més recent: {audio}\n"
+                    if word_count != "No match":
+                        replace_box.send_keys(Keys.CONTROL + "a")
+                        replace_box.send_keys(Keys.DELETE)
+                        replace_box.send_keys(new_word)
+                        replace_all_button.click()
+                        confirm_button = WebDriverWait(driver, 3).until(
+                            ec.element_to_be_clickable((By.XPATH, xp_loc.confirm_button))
+                        )
+                        confirm_button.click()
+                        total_changes += int(word_count)
+                        time.sleep(0.5)
+                    inner_bar.update(1)
 
             back_button = driver.find_element(
                 By.XPATH,
                 xp_loc.back_button,
             )
             back_button.click()
-            bar()
+            outer_bar.update(1)
 
     print(f"Total de canvis: {total_changes}")
     print(f"Mitjana de canvis: {total_changes / len(audiolist)}")
