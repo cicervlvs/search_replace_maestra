@@ -18,6 +18,9 @@ wordlists = {
         ("eradicar", "erradicar"),
         ("unió europea", "Unió Europea"),
     ],
+    "marcians": [
+        ("mart", "Mart"),
+    ],
     "diacrítics": [
         ("dón", "don"),
         (" sóc ", " soc "),
