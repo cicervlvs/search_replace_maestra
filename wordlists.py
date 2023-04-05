@@ -19,7 +19,7 @@ wordlists = {
         ("unió europea", "Unió Europea"),
     ],
     "marcians": [
-        ("mart", "Mart"),
+        (" mart ", " Mart "),
     ],
     "diacrítics": [
         ("dón", "don"),
