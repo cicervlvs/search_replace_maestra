@@ -2,3 +2,4 @@ geckodriver.log
 __pycache__
 credentials.json
 test.py
+test_dyn.py

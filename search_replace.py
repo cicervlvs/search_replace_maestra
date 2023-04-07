@@ -10,7 +10,10 @@ import json
 import wordlists as wl
 import audiolists as al
 import xpath_locs as xp_loc
-from rich.progress import Progress, BarColumn, TimeRemainingColumn, SpinnerColumn
+from rich.progress import Progress, BarColumn, TimeRemainingColumn, SpinnerColumn, TextColumn
+from rich.table import Table
+from rich.live import Live
+from rich.panel import Panel
 from simple_term_menu import TerminalMenu
 
 
@@ -106,95 +109,113 @@ def search_and_replace():
 
     total_changes = 0
 
-    with Progress(
+    inner_progress = Progress(
         SpinnerColumn(),
-        # f"[progress.description]Entrega {n_entrega}",
+        "{task.description}",
+        BarColumn(),
+        "{task.completed}/{task.total}",
+        )
+
+    outer_progress = Progress(
+        SpinnerColumn(),
+        "{task.description}", 
         BarColumn(),
         "{task.completed}/{task.total}",
         TimeRemainingColumn(),
-    ) as progress:
-        task_outer = progress.add_task(
-            "[blue]Progrés en l'entrega", total=len(audiolist)
         )
 
-        for audio in audiolist:
-            search_box = WebDriverWait(driver, 30).until(
-                ec.element_to_be_clickable((By.XPATH, xp_loc.search_box))
+    task_outer = outer_progress.add_task(f"[blue]Progrés en l'entrega {n_entrega}", total=len(audiolist))
+    
+    progress_table = Table.grid()
+    progress_table.add_row(
+            Panel.fit(inner_progress, title="[b]Àudios", border_style="blue", padding=(1,1))
             )
-            search_box.clear()
-            search_box.send_keys(audio)
-            print(f"Entrant a àudio {audio}...")
-            audio_button = WebDriverWait(driver, 10).until(
-                ec.element_to_be_clickable((By.CLASS_NAME, "listItemFileName"))
+
+    progress_table.add_row(
+            Panel.fit(outer_progress, title="[b]Progrés total", border_style="green", padding=(1,1))
             )
-            audio_button.click()
-            search_button = WebDriverWait(driver, 60).until(
-                ec.element_to_be_clickable(
-                    (
-                        By.XPATH,
-                        xp_loc.search_button,
-                    )
+
+    with Live(progress_table, refresh_per_second=15):
+        while not outer_progress.finished:
+            for audio in audiolist:
+
+                tasks_inner = inner_progress.add_task(f"[green]{audio}", total=len(selected_tuples))
+
+                search_box = WebDriverWait(driver, 30).until(
+                    ec.element_to_be_clickable((By.XPATH, xp_loc.search_box))
                 )
-            )
-            search_button.click()
-
-            caps_button = WebDriverWait(driver, 5).until(
-                ec.element_to_be_clickable(
-                    (
-                        By.XPATH,
-                        xp_loc.caps_button,
-                    )
+                search_box.clear()
+                search_box.send_keys(audio)
+                audio_button = WebDriverWait(driver, 10).until(
+                    ec.element_to_be_clickable((By.CLASS_NAME, "listItemFileName"))
                 )
-            )
-            caps_button.click()
-
-            task_inner = progress.add_task(f"[green]Àudio {audio[:6]}")
-
-            for old_word, new_word in selected_tuples:
-                old_word_box = WebDriverWait(driver, 10).until(
+                audio_button.click()
+                search_button = WebDriverWait(driver, 60).until(
                     ec.element_to_be_clickable(
-                        (
+                       (
                             By.XPATH,
-                            xp_loc.old_word_box,
+                            xp_loc.search_button,
                         )
                     )
                 )
-                old_word_box.send_keys(Keys.CONTROL + "a")
-                old_word_box.send_keys(Keys.DELETE)
-                old_word_box.send_keys(old_word)
-                time.sleep(0.4)
-                word_count = (
-                    WebDriverWait(driver, 3)
-                    .until(ec.element_to_be_clickable((By.XPATH, xp_loc.word_count)))
-                    .text
-                )
-                replace_box = driver.find_element(
-                    By.XPATH,
-                    xp_loc.replace_box,
-                )
-                replace_all_button = driver.find_element(
-                    By.XPATH, xp_loc.replace_all_button
-                )
+                search_button.click()
 
-                if word_count != "No match":
-                    replace_box.send_keys(Keys.CONTROL + "a")
-                    replace_box.send_keys(Keys.DELETE)
-                    replace_box.send_keys(new_word)
-                    replace_all_button.click()
-                    confirm_button = WebDriverWait(driver, 3).until(
-                        ec.element_to_be_clickable((By.XPATH, xp_loc.confirm_button))
+                caps_button = WebDriverWait(driver, 5).until(
+                    ec.element_to_be_clickable(
+                        (
+                            By.XPATH,
+                            xp_loc.caps_button,
+                        )
                     )
-                    confirm_button.click()
-                    total_changes += int(word_count)
-                    time.sleep(0.5)
-                progress.update(task_inner, advance=1)
+                )
+                caps_button.click()
 
-            back_button = driver.find_element(
-                By.XPATH,
-                xp_loc.back_button,
-            )
-            back_button.click()
-            progress.update(task_outer, advance=1)
+
+                for old_word, new_word in selected_tuples:
+                    old_word_box = WebDriverWait(driver, 10).until(
+                        ec.element_to_be_clickable(
+                            (
+                                By.XPATH,
+                                xp_loc.old_word_box,
+                            )
+                        )
+                    )
+                    old_word_box.send_keys(Keys.CONTROL + "a")
+                    old_word_box.send_keys(Keys.DELETE)
+                    old_word_box.send_keys(old_word)
+                    time.sleep(0.4)
+                    word_count = (
+                        WebDriverWait(driver, 3)
+                        .until(ec.element_to_be_clickable((By.XPATH, xp_loc.word_count)))
+                        .text
+                    )
+                    replace_box = driver.find_element(
+                        By.XPATH,
+                        xp_loc.replace_box,
+                    )
+                    replace_all_button = driver.find_element(
+                        By.XPATH, xp_loc.replace_all_button
+                    )
+
+                    if word_count != "No match":
+                        replace_box.send_keys(Keys.CONTROL + "a")
+                        replace_box.send_keys(Keys.DELETE)
+                        replace_box.send_keys(new_word)
+                        replace_all_button.click()
+                        confirm_button = WebDriverWait(driver, 3).until(
+                            ec.element_to_be_clickable((By.XPATH, xp_loc.confirm_button))
+                        )
+                        confirm_button.click()
+                        total_changes += int(word_count)
+                        time.sleep(0.5)
+                    inner_progress.update(tasks_inner, advance=1)
+
+                back_button = driver.find_element(
+                    By.XPATH,
+                    xp_loc.back_button,
+                )
+                back_button.click()
+                outer_progress.update(task_outer, advance=1)
 
     print(f"Total de canvis: {total_changes}")
     print(f"Mitjana de canvis: {total_changes / len(audiolist)}")
