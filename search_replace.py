@@ -88,6 +88,10 @@ def search_and_replace():
         show_multi_select_hint=True,
         preview_command=menu_preview,
         preview_size=0.75,
+        preselected_entries=["diacrítics",
+                             "majúscules",
+                             "guions",
+                             "punts_volats"]
     )
     print("Escull les llistes de paraules que vols substituir:")
     terminal_menu.show()
