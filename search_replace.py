@@ -152,7 +152,7 @@ def search_and_replace():
         change_panel,
     )
 
-    with Live(progress_table, refresh_per_second=15, vertical_overflow="visible"):
+    with Live(progress_table, refresh_per_second=15, vertical_overflow="visible") as live:
         while not outer_progress.finished:
             for audio in audiolist:
                 tasks_inner = inner_progress.add_task(
@@ -228,7 +228,7 @@ def search_and_replace():
                         )
                         confirm_button.click()
                         total_changes += int(word_count)
-                        change_panel = Panel.fit(f"Total de canvis: {total_changes}")
+                        live.update(change_panel)
                     inner_progress.update(tasks_inner, advance=1)
 
                 back_button = driver.find_element(
