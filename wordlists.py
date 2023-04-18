@@ -69,7 +69,7 @@ wordlists = {
     "punts_volats": [
         ("peli", "pel·li"),
         (" col le ", " col·le "),
-        ("pel lícula", "pel·lícula"),
+        ("pel lícul", "pel·lícul"),
         ("polució", "pol·lució"),
         ("goril l", "goril·l"),
         ("col labor", "col·labor"),
@@ -78,5 +78,6 @@ wordlists = {
         ("il lu", "il·lu"),
         ("instal l", "instal·l"),
         ("novel l", "novel·l"),
+        ("col lo", "col·lo"),
     ],
 }
