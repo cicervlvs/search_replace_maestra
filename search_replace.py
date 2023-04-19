@@ -137,8 +137,6 @@ def search_and_replace():
         f"[blue]Progrés en l'entrega {n_entrega}", total=len(audiolist)
     )
 
-    change_panel = Panel.fit(f"Total de canvis: {total_changes}")
-
     progress_table = Table.grid()
     progress_table.add_row(
         Panel.fit(
@@ -153,7 +151,7 @@ def search_and_replace():
             border_style="green",
             padding=(1, 1),
         ),
-        change_panel,
+        Panel.fit(f"Total de canvis: {total_changes}\r")
     )
 
     with Live(progress_table, refresh_per_second=15, vertical_overflow="visible") as live:
@@ -232,9 +230,9 @@ def search_and_replace():
                         )
                         confirm_button.click()
                         total_changes += int(word_count)
-                        live.update(change_panel)
+                        
                     inner_progress.update(tasks_inner, advance=1)
-
+                    live.refresh()
                 back_button = driver.find_element(
                     By.XPATH,
                     xp_loc.back_button,
